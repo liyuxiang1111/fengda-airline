@@ -1,0 +1,22 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: project-buyer
+
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/table-database?useUnicode=true&characterEncoding=UTF-8&serverTimeZone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+  redis:
+    host: 127.0.0.1
+    port: 6379
+
+##mybaites-plus
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
