@@ -6,7 +6,7 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 @Data
-public class PassengerTicket {
+public class TicketReturn {
 
     private Integer flightId;
 

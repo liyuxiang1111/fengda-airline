@@ -4,7 +4,7 @@ package com.heyongqiang.work.dao.pojo;
 import lombok.Data;
 
 @Data
-public class PassengerData {
+public class Passenger {
 
     private Integer userId;
 

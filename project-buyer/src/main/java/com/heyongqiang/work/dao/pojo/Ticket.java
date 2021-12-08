@@ -4,7 +4,7 @@ package com.heyongqiang.work.dao.pojo;
 import lombok.Data;
 
 @Data
-public class TicketData {
+public class Ticket {
 
     private Integer ticketId;
 
@@ -16,7 +16,7 @@ public class TicketData {
 
     private Integer sell;
 
-    private String seat;
+    private Integer seat;
 
     private Integer grade;
 
