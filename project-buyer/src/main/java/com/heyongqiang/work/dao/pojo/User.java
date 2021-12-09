@@ -8,7 +8,7 @@ public class User {
 
     private Long id;
 
-    private String userName;
-
     private String userPwd;
+
+    private String userName;
 }

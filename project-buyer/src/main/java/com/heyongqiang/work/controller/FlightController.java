@@ -4,10 +4,7 @@ package com.heyongqiang.work.controller;
 import com.heyongqiang.work.service.FlightSearch;
 import com.heyongqiang.work.vo.Result;
 import com.heyongqiang.work.vo.params.FlightSearchParams;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -28,5 +25,10 @@ public class FlightController {
     @PostMapping("search")
     public Result searchPlane(@RequestBody FlightSearchParams flightSearchParams){
         return flightSearch.searchPlane(flightSearchParams);
+    }
+
+    @PostMapping("search/{day}")
+    public Result searchPlaneDays(@PathVariable String day){
+        return flightSearch.searchPlaneDays(day);
     }
 }

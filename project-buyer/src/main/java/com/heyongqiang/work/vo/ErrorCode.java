@@ -9,7 +9,8 @@ public enum  ErrorCode {
     SESSION_TIME_OUT(10004,"会话超时"),
     NO_LOGIN(10005,"未登录"),
     TOKEN_ERROR(10006,"token为空!!"),
-    PARAMS_IS_NULL(10007,"用户名密码不能为空!!!");
+    PARAMS_IS_NULL(10007,"用户名密码不能为空!!!"),
+    SQL_UPDATE(10008,"更新数据库失败!!!");
 
 
     private int code;

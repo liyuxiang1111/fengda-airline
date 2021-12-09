@@ -12,4 +12,6 @@ public class FlightSearchParams {
 
     private String endCity;
 
+    private String day;
+
 }

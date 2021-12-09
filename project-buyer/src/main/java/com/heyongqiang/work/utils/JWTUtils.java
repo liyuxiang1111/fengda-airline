@@ -37,6 +37,10 @@ public class JWTUtils {
         return null;
     }
 
+    /**
+     *  快速查看生成的 token
+     * @param args
+     */
     public static void main(String[] args) {
         String token = JWTUtils.createToken(1L);
         System.out.println(token);

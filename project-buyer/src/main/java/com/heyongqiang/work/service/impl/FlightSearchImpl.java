@@ -32,6 +32,8 @@ public class FlightSearchImpl implements FlightSearch {
     @Resource
     private PlaneMapper planeMapper;
 
+    private String day;
+
 
     /**
      * 搜索航班
@@ -45,6 +47,7 @@ public class FlightSearchImpl implements FlightSearch {
          */
         String endCity = flightSearchParams.getEndCity();
         String beginCity = flightSearchParams.getBeginCity();
+        day = flightSearchParams.getDay();
         LambdaQueryWrapper<Flight> queryWrapper = new LambdaQueryWrapper<>();
         if(!StringUtils.isBlank(beginCity)){
             queryWrapper.eq(Flight::getBeginTime,beginCity);
@@ -55,6 +58,23 @@ public class FlightSearchImpl implements FlightSearch {
         List<Flight> flights = flightMapper.selectList(queryWrapper);
 
         return Result.success(copyList(flights));
+    }
+
+    /**
+     * 通过日期查询 指定日期的航班
+     * @param day
+     * @return
+     */
+
+    @Override
+    public Result searchPlaneDays(String day) {
+        /**
+         *  接收日期也会返回一个
+         */
+
+
+
+        return null;
     }
 
     /**
@@ -91,6 +111,7 @@ public class FlightSearchImpl implements FlightSearch {
         LambdaQueryWrapper<Ticket> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Ticket::getSeat,seat);
         queryWrapper.eq(Ticket::getFlightId,flightId);
+        queryWrapper.eq(Ticket::getTicketDay,day);
 //        购买的票是否超过了本来有的表
         Integer byseat = ticketMapper.selectCount(queryWrapper);
         return byseat < reSeat ? false : true;

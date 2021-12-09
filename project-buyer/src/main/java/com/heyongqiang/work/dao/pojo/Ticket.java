@@ -22,5 +22,7 @@ public class Ticket {
 
     private String ticketTime;
 
+    private String ticketDay;
+
 
 }

@@ -26,4 +26,6 @@ public class Flight {
 
     private Integer firstPrice;
 
+    private String flightDay;
+
 }

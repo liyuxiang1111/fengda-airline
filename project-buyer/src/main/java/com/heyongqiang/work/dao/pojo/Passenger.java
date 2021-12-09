@@ -6,16 +6,20 @@ import lombok.Data;
 @Data
 public class Passenger {
 
-    private Integer userId;
+    private Long id;
 
-    private String userAccount;
+    private String nickName;
 
     private String userPwd;
 
-    private Integer passengerTelephone;
+    private String realName;
+
+    private String telephone;
 
     private Integer certificateTypeid;
 
-    private String passengerName;
+    private String email;
+
+    private Integer gender;
 
 }
