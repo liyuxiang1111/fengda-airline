@@ -4,15 +4,14 @@ package com.heyongqiang.work.dao.pojo;
 import lombok.Data;
 
 @Data
-public class PassengerType {
+public class Certificate {
 
-    private Integer certificateTypeid;
+    private Integer id;
 
     private String certificate;
 
     private String discount;
 
-    private Integer certificateType;
-
+    private String certificateType;
 
 }

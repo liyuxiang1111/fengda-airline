@@ -6,7 +6,7 @@ import com.heyongqiang.work.dao.mapper.FlightMapper;
 import com.heyongqiang.work.dao.mapper.PlaneMapper;
 import com.heyongqiang.work.dao.mapper.TicketMapper;
 import com.heyongqiang.work.dao.pojo.Flight;
-import com.heyongqiang.work.dao.pojo.Planes;
+import com.heyongqiang.work.dao.pojo.Plane;
 import com.heyongqiang.work.dao.pojo.Ticket;
 import com.heyongqiang.work.service.FlightSearch;
 import com.heyongqiang.work.vo.FlightSearchVo;
@@ -94,15 +94,17 @@ public class FlightSearchImpl implements FlightSearch {
     public FlightSearchVo copy(Flight flight){
         FlightSearchVo flightSearchVo = new FlightSearchVo();
         BeanUtils.copyProperties(flight,flightSearchVo);
-        LambdaQueryWrapper<Planes> lambdaQueryWrapper = new LambdaQueryWrapper();
-        lambdaQueryWrapper.eq(Planes::getPlaneId,flight.getPlaneId());
-        Planes planes = planeMapper.selectOne(lambdaQueryWrapper);
+        /**
+         * 根据  飞机的型号 拿到飞机的基本信息
+         */
+        Plane plane = planeMapper.selectById(flight.getId());
+
 //        起步价
         flightSearchVo.setLastPrice(flight.getEconomyPrice());
 //        设置是否有 头等舱的票
-        flightSearchVo.setIseconomy(SearchBooleanTicket(flight.getFlightId(), 0,planes.getEconomySeat()));
-        flightSearchVo.setIsbusiness(SearchBooleanTicket(flight.getFlightId(), 1,planes.getBusinessSeat()));
-        flightSearchVo.setIsfirst(SearchBooleanTicket(flight.getFlightId(), 2,planes.getFirstSeat()));
+        flightSearchVo.setIseconomy(SearchBooleanTicket(flight.getId(), 0, plane.getEconomySeat()));
+        flightSearchVo.setIsbusiness(SearchBooleanTicket(flight.getId(), 1, plane.getBusinessSeat()));
+        flightSearchVo.setIsfirst(SearchBooleanTicket(flight.getId(), 2, plane.getFirstSeat()));
         return flightSearchVo;
     }
 

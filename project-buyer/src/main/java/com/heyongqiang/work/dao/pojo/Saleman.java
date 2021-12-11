@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class Saleman {
 
-    private Integer salesmanId;
+    private Integer id;
 
     private String salesmanName;
 

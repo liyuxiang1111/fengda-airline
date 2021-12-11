@@ -4,9 +4,9 @@ package com.heyongqiang.work.dao.pojo;
 import lombok.Data;
 
 @Data
-public class Planes {
+public class Plane {
 
-    private Integer planeId;
+    private Integer id;
 
     private String planeModel;
 

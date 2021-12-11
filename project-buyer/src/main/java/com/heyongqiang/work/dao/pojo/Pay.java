@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class Pay {
 
-    private Integer payId;
+    private Integer id;
 
     private Integer ticketId;
 

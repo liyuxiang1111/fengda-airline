@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 @Data
 public class FlightDiscount {
 
-    private Integer flightId;
+    private Integer id;
 
     private String discount;
 

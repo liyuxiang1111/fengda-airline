@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class Flight {
 
-    private Long flightId;
+    private Long id;
 
     private String flightNum;
 

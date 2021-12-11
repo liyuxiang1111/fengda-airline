@@ -16,10 +16,12 @@ public class Passenger {
 
     private String telephone;
 
-    private Integer certificateTypeid;
+    private Integer certificateId;
 
     private String email;
 
     private Integer gender;
+
+    private String userImg;
 
 }

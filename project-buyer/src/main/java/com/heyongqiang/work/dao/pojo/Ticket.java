@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class Ticket {
 
-    private Integer ticketId;
+    private Long id;
 
     private Integer flightId;
 
@@ -16,6 +16,11 @@ public class Ticket {
 
     private Integer sell;
 
+    /**
+     *  0 头等舱
+     *  1 商务舱
+     *  2 经济舱
+     */
     private Integer seat;
 
     private Integer grade;
