@@ -32,7 +32,7 @@ public class FlightSearchImpl implements FlightSearch {
     @Resource
     private PlaneMapper planeMapper;
 
-    private String day;
+    private Integer day;
 
 
     /**
@@ -48,14 +48,10 @@ public class FlightSearchImpl implements FlightSearch {
         String endCity = flightSearchParams.getEndCity();
         String beginCity = flightSearchParams.getBeginCity();
         day = flightSearchParams.getDay();
-        LambdaQueryWrapper<Flight> queryWrapper = new LambdaQueryWrapper<>();
-        if(!StringUtils.isBlank(beginCity)){
-            queryWrapper.eq(Flight::getBeginTime,beginCity);
-        }
-        if(!StringUtils.isBlank(endCity)){
-            queryWrapper.eq(Flight::getEndCity,endCity);
-        }
-        List<Flight> flights = flightMapper.selectList(queryWrapper);
+        Integer pageSize = flightSearchParams.getPageSize();
+        Integer pageNum = flightSearchParams.getPageNum();
+
+        List<Flight> flights = flightMapper.selectPlansLimit(beginCity,endCity,pageNum,pageSize);
 
         return Result.success(copyList(flights));
     }
@@ -71,8 +67,6 @@ public class FlightSearchImpl implements FlightSearch {
         /**
          *  接收日期也会返回一个
          */
-
-
 
         return null;
     }
@@ -101,23 +95,10 @@ public class FlightSearchImpl implements FlightSearch {
 
 //        起步价
         flightSearchVo.setLastPrice(flight.getEconomyPrice());
-//        设置是否有 头等舱的票
-        flightSearchVo.setIseconomy(SearchBooleanTicket(flight.getId(), 0, plane.getEconomySeat()));
-        flightSearchVo.setIsbusiness(SearchBooleanTicket(flight.getId(), 1, plane.getBusinessSeat()));
-        flightSearchVo.setIsfirst(SearchBooleanTicket(flight.getId(), 2, plane.getFirstSeat()));
+        flightSearchVo.setDay(day);
         return flightSearchVo;
     }
 
-//    查询是否有对应舱的票
-    private Boolean SearchBooleanTicket(Long flightId,Integer seat,Integer reSeat) {
-        LambdaQueryWrapper<Ticket> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(Ticket::getSeat,seat);
-        queryWrapper.eq(Ticket::getFlightId,flightId);
-        queryWrapper.eq(Ticket::getTicketDay,day);
-//        购买的票是否超过了本来有的表
-        Integer byseat = ticketMapper.selectCount(queryWrapper);
-        return byseat < reSeat ? false : true;
-    }
 
 
 }

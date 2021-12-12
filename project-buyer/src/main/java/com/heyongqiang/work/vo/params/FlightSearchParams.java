@@ -12,6 +12,11 @@ public class FlightSearchParams {
 
     private String endCity;
 
-    private String day;
+    private Integer day;
+
+    private Integer pageSize;
+
+//    当前页
+    private Integer pageNum;
 
 }

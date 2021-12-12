@@ -10,15 +10,15 @@ public class Flight {
 
     private String flightNum;
 
-    private Integer planeId;
+    private Long planeId;
 
     private String beginCity;
 
     private String endCity;
 
-    private Long beginTime;
+    private String beginTime;
 
-    private Long endTime;
+    private String endTime;
 
     private Integer economyPrice;
 

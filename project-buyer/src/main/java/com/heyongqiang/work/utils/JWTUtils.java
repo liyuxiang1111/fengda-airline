@@ -4,6 +4,7 @@ import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -44,6 +45,7 @@ public class JWTUtils {
     public static void main(String[] args) {
         String token = JWTUtils.createToken(1L);
         System.out.println(token);
+        System.out.println(DigestUtils.md5Hex("1"+jwtToken));
         Map<String,Object> map = JWTUtils.checkToken(token);
         System.out.println(map.get("userId"));
     }

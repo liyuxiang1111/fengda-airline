@@ -8,11 +8,15 @@ import java.sql.Timestamp;
 @Data
 public class TicketReturn {
 
-    private Integer flightId;
+    private Long id;
 
-    private Integer userId;
+    private Long flightId;
 
-    private Integer ticketId;
+    private Long userId;
+
+    private Long ticketId;
+
+    private String seat;
 
     private String planeModel;
 
@@ -22,9 +26,11 @@ public class TicketReturn {
 
     private Integer passengerTelephone;
 
-    private String ticketPrice;
+    private Integer ticketPrice;
 
-    private Timestamp time;
+    private Long time;
+
+    private Boolean iswatch;
 
 
 }

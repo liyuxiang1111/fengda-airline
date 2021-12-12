@@ -1,13 +1,25 @@
 package com.heyongqiang.work.service;
 
-
 import com.heyongqiang.work.vo.Result;
+import com.heyongqiang.work.vo.params.TicketBuyerParams;
+import com.heyongqiang.work.vo.params.TicketChangeParams;
 
 public interface TicketService {
+
+
     /**
-     * 通过 threadlocal 来获得本人的id
+     * 买票
+     * @param ticketBuyerParams
      * @return
      */
-    Result findTicketByUserId();
 
+    Result ticketBuy(TicketBuyerParams ticketBuyerParams);
+
+
+    /**
+     * 改签
+     * @param ticketChangeParams
+     * @return
+     */
+    Result changeTicketDay(TicketChangeParams ticketChangeParams);
 }

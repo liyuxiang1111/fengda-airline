@@ -7,7 +7,7 @@ import lombok.Data;
 public class PassengerRegisterParams {
 
     //昵称
-    private String nickname;
+    private String nickName;
 
 //    密码
     private String userPwd;

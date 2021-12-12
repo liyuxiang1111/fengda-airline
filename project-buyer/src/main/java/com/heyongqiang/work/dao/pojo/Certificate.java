@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class Certificate {
 
-    private Integer id;
+    private Long id;
 
     private String certificate;
 

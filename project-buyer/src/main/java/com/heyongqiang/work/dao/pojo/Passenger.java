@@ -16,7 +16,7 @@ public class Passenger {
 
     private String telephone;
 
-    private Integer certificateId;
+    private Long certificateId;
 
     private String email;
 

@@ -6,11 +6,11 @@ import lombok.Data;
 @Data
 public class Pay {
 
-    private Integer id;
+    private Long id;
 
-    private Integer ticketId;
+    private Long ticketId;
 
-    private Integer userId;
+    private Long userId;
 
     private Integer ispay;
 

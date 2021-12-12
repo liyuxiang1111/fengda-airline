@@ -11,6 +11,7 @@ import com.heyongqiang.work.vo.ErrorCode;
 import com.heyongqiang.work.vo.Result;
 import com.heyongqiang.work.vo.params.PassengerPasswordParams;
 import com.heyongqiang.work.vo.params.PassengerRegisterParams;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,9 @@ public class RegisterServiceImpl implements RegisterService {
     @Resource
     private RedisTemplate<String,String> redisTemplate;
 
+    private final static String slat = "123hyq!@dsfas";
+
+
     /**
      * 注册用户
      * @param registerParams
@@ -40,6 +44,7 @@ public class RegisterServiceImpl implements RegisterService {
     public Result registerPassenger(PassengerRegisterParams registerParams) {
         Passenger passenger = new Passenger();
         BeanUtils.copyProperties(registerParams,passenger);
+        passenger.setUserPwd(DigestUtils.md5Hex(registerParams.getUserPwd()+slat));
         int insert = this.passengerMapper.insert(passenger);
         if(insert == 0){
             Result.fail(ErrorCode.SQL_UPDATE.getCode(),ErrorCode.SQL_UPDATE.getMsg());
@@ -52,7 +57,7 @@ public class RegisterServiceImpl implements RegisterService {
         if(insert1 == 0){
             return Result.fail(ErrorCode.SQL_UPDATE.getCode(),ErrorCode.SQL_UPDATE.getMsg());
         }
-        Integer certificateId = certificate.getId();
+        Long certificateId = certificate.getId();
         passenger.setCertificateId(certificateId);
         int update = this.passengerMapper.updateById(passenger);
         if(update == 0){

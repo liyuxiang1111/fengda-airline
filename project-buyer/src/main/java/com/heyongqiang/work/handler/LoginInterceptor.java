@@ -57,7 +57,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         Passenger passenger = loginService.checkToken(token);
         if(passenger == null){
             Result result = Result.fail(ErrorCode.NO_LOGIN.getCode(), ErrorCode.NO_LOGIN.getMsg());
-            response.setContentType("application/json;charset=uft-8");
+            response.setContentType("application/json;charset=utf-8");
             response.getWriter().print(JSON.toJSONString(result));
             return false;
         }

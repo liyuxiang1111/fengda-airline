@@ -5,10 +5,7 @@ import com.heyongqiang.work.service.RegisterService;
 import com.heyongqiang.work.vo.Result;
 import com.heyongqiang.work.vo.params.PassengerPasswordParams;
 import com.heyongqiang.work.vo.params.PassengerRegisterParams;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -20,7 +17,7 @@ public class RegisterController {
     private RegisterService registerService;
 
     @PostMapping
-    public Result registerPassenger(@RequestParam PassengerRegisterParams registerParams){
+    public Result registerPassenger(@RequestBody PassengerRegisterParams registerParams){
         return registerService.registerPassenger(registerParams);
     }
 

@@ -21,14 +21,6 @@ public class FlightSearchVo {
 //  航班名称
     private String planeNum;
 
-//    经济舱座位
-    private Boolean iseconomy;
-
-//    商务舱座位
-    private Boolean isbusiness;
-
-//    头等舱座位
-    private Boolean isfirst;
 
 //    起步价
     private Integer lastPrice;
@@ -41,5 +33,8 @@ public class FlightSearchVo {
 
 //  0
     private Integer firstPrice;
+
+//    日期
+    private Integer day;
 
 }

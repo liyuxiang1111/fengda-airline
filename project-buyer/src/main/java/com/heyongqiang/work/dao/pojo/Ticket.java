@@ -8,11 +8,11 @@ public class Ticket {
 
     private Long id;
 
-    private Integer flightId;
+    private Long flightId;
 
-    private Integer planeId;
+    private Long planeId;
 
-    private String ticketPrice;
+    private Integer ticketPrice;
 
     private Integer sell;
 
@@ -25,9 +25,8 @@ public class Ticket {
 
     private Integer grade;
 
-    private String ticketTime;
-
     private String ticketDay;
+
 
 
 }
