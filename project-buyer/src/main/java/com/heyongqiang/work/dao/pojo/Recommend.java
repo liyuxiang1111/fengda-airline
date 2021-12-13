@@ -1,10 +1,10 @@
 package com.heyongqiang.work.dao.pojo;
 
+
 import lombok.Data;
 
-
 @Data
-public class Flight {
+public class Recommend {
 
     private Long id;
 

@@ -16,15 +16,13 @@ public class TicketReturn {
 
     private Long ticketId;
 
-    private String seat;
-
-    private String planeModel;
+    private Integer seat;
 
     private String reason;
 
     private String passengerName;
 
-    private Integer passengerTelephone;
+    private String passengerTelephone;
 
     private Integer ticketPrice;
 

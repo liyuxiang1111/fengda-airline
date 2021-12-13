@@ -61,7 +61,7 @@ public class TicketSearchReturnServiceImpl implements TicketSearchReturnService 
         BeanUtils.copyProperties(flight,ticketReturnVo);
         ticketReturnVo.setIsCompute(ticket.getIswatch());
         ticketReturnVo.setPrice(ticket.getTicketPrice());
-        ticketReturnVo.setTicketId(ticket.getTicketId());
+        ticketReturnVo.setTicketId(String.valueOf(ticket.getTicketId()));
 //        得到指定的航班 set 对应属性
         return ticketReturnVo;
     }

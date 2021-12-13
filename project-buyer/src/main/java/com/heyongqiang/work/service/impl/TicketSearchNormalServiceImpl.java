@@ -86,7 +86,7 @@ public class TicketSearchNormalServiceImpl implements TicketSearchNormalService 
         Flight flight = flightMapper.selectById(flightId);
         ticketNormalVo.setBeginCity(flight.getBeginCity());
         ticketNormalVo.setEndCity(flight.getEndCity());
-        ticketNormalVo.setBegingTime(new DateTime(flight.getBeginTime()).toString("yyyy-MM-dd"));
+        ticketNormalVo.setBeginTime(new DateTime(flight.getBeginTime()).toString("yyyy-MM-dd"));
         ticketNormalVo.setEndTime(new DateTime(flight.getEndTime()).toString("yyyy-MM-dd"));
     }
 

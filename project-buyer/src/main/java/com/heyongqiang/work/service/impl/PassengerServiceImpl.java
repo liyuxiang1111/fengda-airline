@@ -1,18 +1,27 @@
 package com.heyongqiang.work.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.heyongqiang.work.dao.mapper.CertificateMapper;
 import com.heyongqiang.work.dao.mapper.PassengerMapper;
+import com.heyongqiang.work.dao.pojo.Certificate;
 import com.heyongqiang.work.dao.pojo.Passenger;
 import com.heyongqiang.work.service.PassengerService;
+import com.heyongqiang.work.utils.JWTUtils;
 import com.heyongqiang.work.utils.UserThreadLocal;
 import com.heyongqiang.work.vo.ErrorCode;
+import com.heyongqiang.work.vo.PassengerVo;
 import com.heyongqiang.work.vo.Result;
 import com.heyongqiang.work.vo.params.PassengerChangeParams;
 import com.heyongqiang.work.vo.params.PassengerPasswordParams;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 @Service
 public class PassengerServiceImpl implements PassengerService {
@@ -20,6 +29,30 @@ public class PassengerServiceImpl implements PassengerService {
 
     @Resource
     private PassengerMapper passengerMapper;
+
+    @Resource
+    private CertificateMapper certificateMapper;
+
+    @Resource
+    private RedisTemplate<String,String> redisTemplate;
+
+    @Override
+    public Passenger checkToken(String token) {
+        if(StringUtils.isBlank(token)){
+            return null;
+        }
+        Map<String, Object> map = JWTUtils.checkToken(token);
+        if(map == null){
+            return null;
+        }
+        String userJson = redisTemplate.opsForValue().get("TOKEN_" + token);
+        if(StringUtils.isBlank(userJson)){
+            return null;
+        }
+//        token 验证通过解析为 token 字符返回
+        Passenger passenger = JSON.parseObject(userJson, Passenger.class);
+        return passenger;
+    }
 
     /**
      *   首先拿到参数之后判断是否非空
@@ -83,5 +116,19 @@ public class PassengerServiceImpl implements PassengerService {
             return Result.fail(ErrorCode.SQL_UPDATE.getCode(),ErrorCode.SQL_UPDATE.getMsg());
         }
         return Result.success(null);
+    }
+
+    @Override
+    public Result getUserInformation(String token) {
+        Passenger passenger = checkToken(token);
+        if(passenger == null){
+            return Result.fail(ErrorCode.NO_LOGIN.getCode(),ErrorCode.NO_LOGIN.getMsg());
+        }
+//      铜鼓哦 id 查询证件
+        Certificate certificate = certificateMapper.selectById(passenger.getCertificateId());
+        PassengerVo passengerVo = new PassengerVo();
+        BeanUtils.copyProperties(passenger,passengerVo);
+        passengerVo.setCertificate(certificate.getCertificate());
+        return Result.success(passengerVo);
     }
 }

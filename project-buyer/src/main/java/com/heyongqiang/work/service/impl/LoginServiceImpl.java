@@ -2,14 +2,10 @@ package com.heyongqiang.work.service.impl;
 
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.heyongqiang.work.dao.mapper.LoginMapper;
 import com.heyongqiang.work.dao.mapper.PassengerMapper;
 import com.heyongqiang.work.dao.pojo.Passenger;
-import com.heyongqiang.work.dao.pojo.User;
 import com.heyongqiang.work.service.LoginService;
 import com.heyongqiang.work.utils.JWTUtils;
 import com.heyongqiang.work.vo.ErrorCode;

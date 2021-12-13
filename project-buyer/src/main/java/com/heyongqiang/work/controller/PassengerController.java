@@ -1,6 +1,7 @@
 package com.heyongqiang.work.controller;
 
 
+import com.heyongqiang.work.dao.pojo.Passenger;
 import com.heyongqiang.work.service.PassengerService;
 import com.heyongqiang.work.vo.Result;
 import com.heyongqiang.work.vo.params.PassengerChangeParams;
@@ -17,12 +18,17 @@ public class PassengerController {
     private PassengerService passengerService;
 
 
+    @GetMapping
+    public Result getuserInformation(@RequestHeader("Authorization") String token ){
+        return passengerService.getUserInformation(token);
+    }
+
     @PostMapping("informations")
     public Result changeUserInformation(@RequestBody PassengerChangeParams passengerChangeParams){
         return passengerService.changeUserInformation(passengerChangeParams);
     }
 
-    @PostMapping("pwssword")
+    @PostMapping("password")
     public Result changePassword(@RequestParam PassengerPasswordParams passengerPasswordParams){
         return passengerService.changePassengerPwd(passengerPasswordParams);
     }

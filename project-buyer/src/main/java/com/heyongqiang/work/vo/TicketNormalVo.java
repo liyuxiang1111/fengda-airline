@@ -6,13 +6,13 @@ import lombok.Data;
 @Data
 public class TicketNormalVo {
 
-    private Long ticketId;
+    private String ticketId;
 
     private String beginCity;
 
     private String endCity;
 
-    private String begingTime;
+    private String beginTime;
 
     private String endTime;
 

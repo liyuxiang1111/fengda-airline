@@ -28,5 +28,4 @@ public class Ticket {
     private String ticketDay;
 
 
-
 }

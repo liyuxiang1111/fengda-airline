@@ -6,8 +6,10 @@ import lombok.Data;
 @Data
 public class FlightSearchVo {
 
+    private String flightId;
+
 //    出发地
-    private String begincity;
+    private String beginCity;
 
     //    降落时间
     private String endTime;
@@ -34,7 +36,7 @@ public class FlightSearchVo {
 //  0
     private Integer firstPrice;
 
-//    日期
     private Integer day;
+
 
 }

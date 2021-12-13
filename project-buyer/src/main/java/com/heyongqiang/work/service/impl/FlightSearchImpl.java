@@ -2,6 +2,7 @@ package com.heyongqiang.work.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.heyongqiang.work.common.cache.Cache;
 import com.heyongqiang.work.dao.mapper.FlightMapper;
 import com.heyongqiang.work.dao.mapper.PlaneMapper;
 import com.heyongqiang.work.dao.mapper.TicketMapper;
@@ -26,13 +27,6 @@ public class FlightSearchImpl implements FlightSearch {
     @Resource
     private FlightMapper flightMapper;
 
-    @Resource
-    private TicketMapper ticketMapper;
-
-    @Resource
-    private PlaneMapper planeMapper;
-
-    private Integer day;
 
 
     /**
@@ -47,7 +41,6 @@ public class FlightSearchImpl implements FlightSearch {
          */
         String endCity = flightSearchParams.getEndCity();
         String beginCity = flightSearchParams.getBeginCity();
-        day = flightSearchParams.getDay();
         Integer pageSize = flightSearchParams.getPageSize();
         Integer pageNum = flightSearchParams.getPageNum();
 
@@ -91,11 +84,9 @@ public class FlightSearchImpl implements FlightSearch {
         /**
          * 根据  飞机的型号 拿到飞机的基本信息
          */
-        Plane plane = planeMapper.selectById(flight.getId());
-
+        flightSearchVo.setFlightId(String.valueOf(flight.getId()));
 //        起步价
         flightSearchVo.setLastPrice(flight.getEconomyPrice());
-        flightSearchVo.setDay(day);
         return flightSearchVo;
     }
 

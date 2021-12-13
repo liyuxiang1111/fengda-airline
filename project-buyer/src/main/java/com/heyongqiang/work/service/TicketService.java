@@ -3,6 +3,7 @@ package com.heyongqiang.work.service;
 import com.heyongqiang.work.vo.Result;
 import com.heyongqiang.work.vo.params.TicketBuyerParams;
 import com.heyongqiang.work.vo.params.TicketChangeParams;
+import com.heyongqiang.work.vo.params.TicketReturnParams;
 
 public interface TicketService {
 
@@ -22,4 +23,12 @@ public interface TicketService {
      * @return
      */
     Result changeTicketDay(TicketChangeParams ticketChangeParams);
+
+    /**
+     * 退票
+     * @param ticketReturnParams
+     * @return
+     */
+
+    Result ticketReturn(TicketReturnParams ticketReturnParams);
 }

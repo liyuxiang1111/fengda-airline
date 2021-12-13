@@ -1,11 +1,12 @@
 package com.heyongqiang.work.vo.params;
 
+
 import lombok.Data;
 
 @Data
-public class FlightSeatParams {
+public class TicketReturnParams {
 
-    private Long flightId;
+    private Long ticketId;
 
     private String resource;
 

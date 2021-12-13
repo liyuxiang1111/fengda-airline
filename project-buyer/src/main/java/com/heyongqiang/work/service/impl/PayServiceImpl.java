@@ -78,7 +78,7 @@ public class PayServiceImpl implements PayService {
         PayListVo payListVo = new PayListVo();
         LambdaQueryWrapper<Flight> queryWrapper = new LambdaQueryWrapper<>();
         BeanUtils.copyProperties(pay,payListVo);
-        payListVo.setPayId(pay.getId());
+        payListVo.setPayId(String.valueOf(pay.getId()));
         return payListVo;
     }
 

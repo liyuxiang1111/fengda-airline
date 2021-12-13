@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class TicketReturnVo {
 
-    private Long ticketId;
+    private String ticketId;
 
     private String beginCity;
 
@@ -18,6 +18,5 @@ public class TicketReturnVo {
     private Integer price;
 
     private Boolean isCompute;
-
 
 }

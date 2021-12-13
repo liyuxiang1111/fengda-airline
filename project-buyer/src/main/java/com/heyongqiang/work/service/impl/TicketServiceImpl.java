@@ -5,16 +5,16 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.heyongqiang.work.dao.mapper.FlightMapper;
 import com.heyongqiang.work.dao.mapper.PayMapper;
 import com.heyongqiang.work.dao.mapper.TicketMapper;
-import com.heyongqiang.work.dao.pojo.Flight;
-import com.heyongqiang.work.dao.pojo.Passenger;
-import com.heyongqiang.work.dao.pojo.Pay;
-import com.heyongqiang.work.dao.pojo.Ticket;
+import com.heyongqiang.work.dao.mapper.TicketReturnMapper;
+import com.heyongqiang.work.dao.pojo.*;
 import com.heyongqiang.work.service.TicketService;
 import com.heyongqiang.work.utils.UserThreadLocal;
 import com.heyongqiang.work.vo.ErrorCode;
 import com.heyongqiang.work.vo.Result;
 import com.heyongqiang.work.vo.params.TicketBuyerParams;
 import com.heyongqiang.work.vo.params.TicketChangeParams;
+import com.heyongqiang.work.vo.params.TicketReturnParams;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -32,6 +32,9 @@ public class TicketServiceImpl implements TicketService {
 
     @Resource
     private PayMapper payMapper;
+
+    @Resource
+    private TicketReturnMapper ticketReturnMapper;
 
     @Override
     public Result ticketBuy(TicketBuyerParams ticketBuyerParams) {
@@ -87,6 +90,42 @@ public class TicketServiceImpl implements TicketService {
             return Result.fail(ErrorCode.SQL_UPDATE.getCode(),ErrorCode.SQL_UPDATE.getMsg());
         }
         return Result.success(null);
+    }
+
+    @Override
+    public Result ticketReturn(TicketReturnParams ticketReturnParams) {
+        Passenger passenger = UserThreadLocal.get();
+        if(passenger == null){
+            return Result.fail(ErrorCode.NO_LOGIN.getCode(),ErrorCode.NO_LOGIN.getMsg());
+        }
+        /**
+         * 退票
+         *     首先退票需要向退票表 插入者这一条数据
+         *     首先同通过ticketid 查询机票的所有信息
+         */
+//        根据id 查询到指定机票的全部信息
+        Ticket ticket = ticketMapper.selectById(ticketReturnParams.getTicketId());
+        TicketReturn ticketReturn = initTicketReturnInformation(ticket,passenger);
+        ticketReturn.setReason(ticketReturnParams.getResource());
+
+        int insert = ticketReturnMapper.insert(ticketReturn);
+        if(insert == 0){
+            return Result.fail(ErrorCode.SQL_UPDATE.getCode(),ErrorCode.SQL_UPDATE.getMsg());
+        }
+        return Result.success(null);
+    }
+
+    private TicketReturn initTicketReturnInformation(Ticket ticket,Passenger passenger) {
+        TicketReturn ticketReturn = new TicketReturn();
+        ticketReturn.setUserId(passenger.getId());
+        ticketReturn.setFlightId(ticket.getFlightId());
+        ticketReturn.setIswatch(false);
+        ticketReturn.setPassengerName(passenger.getRealName());
+        ticketReturn.setPassengerTelephone(passenger.getTelephone());
+        ticketReturn.setTicketId(ticket.getId());
+        ticketReturn.setTime(System.currentTimeMillis());
+        ticketReturn.setSeat(ticket.getSeat());
+        return ticketReturn;
     }
 
 

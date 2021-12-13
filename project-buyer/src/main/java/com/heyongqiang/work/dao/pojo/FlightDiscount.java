@@ -8,10 +8,10 @@ import java.sql.Timestamp;
 @Data
 public class FlightDiscount {
 
-    private Integer id;
+    private Long id;
 
-    private String discount;
+    private Integer discount;
 
-    private Timestamp discountTime;
+    private Long discountTime;
 
 }

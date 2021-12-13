@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class PayListVo {
 
-    private Long payId;
+    private String payId;
 
     private Long ticketId;
 
