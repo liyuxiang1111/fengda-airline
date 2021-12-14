@@ -48,6 +48,7 @@ public class JWTUtils {
         System.out.println(DigestUtils.md5Hex("1"+jwtToken));
         Map<String,Object> map = JWTUtils.checkToken(token);
         System.out.println(map.get("userId"));
+        System.out.println(DigestUtils.md5Hex("abc"));
     }
 
 }

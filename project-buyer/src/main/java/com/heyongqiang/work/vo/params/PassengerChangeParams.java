@@ -5,8 +5,6 @@ import lombok.Data;
 @Data
 public class PassengerChangeParams {
 
-    private String userId;
-
     private String telephoneNumber;
 
     private String email;

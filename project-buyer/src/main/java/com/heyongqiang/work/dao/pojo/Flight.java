@@ -18,10 +18,12 @@ public class Flight {
 
     private String endTime;
 
-    private Integer economyPrice;
+    private String economyPrice;
 
-    private Integer businessPrice;
+    private String businessPrice;
 
-    private Integer firstPrice;
+    private String firstPrice;
+
+    private String flightName;
 
 }

@@ -14,9 +14,9 @@ public class FlightSearchParams {
 
     private Integer day;
 
-    private Integer pageSize;
+    private int pageSize;
 
 //    当前页
-    private Integer pageNum;
+    private int pageNum;
 
 }

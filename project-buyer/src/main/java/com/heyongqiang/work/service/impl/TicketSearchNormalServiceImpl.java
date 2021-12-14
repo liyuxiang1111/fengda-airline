@@ -46,11 +46,11 @@ public class TicketSearchNormalServiceImpl implements TicketSearchNormalService 
         /**
          *  select ticket from pay where userid = id and ispay = 1;
          */
-        List<String> flightList = payMapper.selectFlightIdList(id);
+        List<String> ticketList = payMapper.selectFlightIdList(id);
         /**
          * 根据 id的 list 去 ticket中寻找对应的 list
          */
-        List<Ticket> tickets = ticketMapper.findTicketListNormal(flightList);
+        List<Ticket> tickets = ticketMapper.findTicketListNormal(ticketList);
 
         return Result.success(copyList(tickets));
     }
@@ -86,8 +86,8 @@ public class TicketSearchNormalServiceImpl implements TicketSearchNormalService 
         Flight flight = flightMapper.selectById(flightId);
         ticketNormalVo.setBeginCity(flight.getBeginCity());
         ticketNormalVo.setEndCity(flight.getEndCity());
-        ticketNormalVo.setBeginTime(new DateTime(flight.getBeginTime()).toString("yyyy-MM-dd"));
-        ticketNormalVo.setEndTime(new DateTime(flight.getEndTime()).toString("yyyy-MM-dd"));
+        ticketNormalVo.setBeginTime(new DateTime(flight.getBeginTime()).toString("HH:mm"));
+        ticketNormalVo.setEndTime(new DateTime(flight.getEndTime()).toString("HH:mm"));
     }
 
 //    public static void main(String[] args) {

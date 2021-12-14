@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface FlightMapper extends BaseMapper<Flight> {
 
-    List<Flight> selectPlansLimit(String beginCity, String endCity, Integer pageNum, Integer pageSize);
+    List<Flight> selectPlansLimit(String beginCity, String endCity, int pageNum, int pageSize);
 
 }

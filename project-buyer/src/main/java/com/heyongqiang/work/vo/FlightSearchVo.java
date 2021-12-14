@@ -21,7 +21,7 @@ public class FlightSearchVo {
     private String beginTime;
 
 //  航班名称
-    private String planeNum;
+    private String flightName;
 
 
 //    起步价

@@ -7,6 +7,7 @@ import com.heyongqiang.work.service.FlightIndexService;
 import com.heyongqiang.work.vo.FlightSearchVo;
 import com.heyongqiang.work.vo.Result;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,11 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 @Service
 public class FlightIndexServiceImpl implements FlightIndexService {
 
     @Resource
     private RecommendMapper recommendMapper;
+
+
 
     @Override
     public Result searchIndexFlight() {

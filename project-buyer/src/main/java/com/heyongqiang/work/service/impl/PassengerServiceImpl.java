@@ -14,14 +14,17 @@ import com.heyongqiang.work.vo.PassengerVo;
 import com.heyongqiang.work.vo.Result;
 import com.heyongqiang.work.vo.params.PassengerChangeParams;
 import com.heyongqiang.work.vo.params.PassengerPasswordParams;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class PassengerServiceImpl implements PassengerService {
@@ -34,7 +37,10 @@ public class PassengerServiceImpl implements PassengerService {
     private CertificateMapper certificateMapper;
 
     @Resource
-    private RedisTemplate<String,String> redisTemplate;
+    private StringRedisTemplate stringRedisTemplate;
+
+    private final static String slat = "123hyq!@dsfas";
+
 
     @Override
     public Passenger checkToken(String token) {
@@ -45,7 +51,7 @@ public class PassengerServiceImpl implements PassengerService {
         if(map == null){
             return null;
         }
-        String userJson = redisTemplate.opsForValue().get("TOKEN_" + token);
+        String userJson = stringRedisTemplate.opsForValue().get("TOKEN_" + token);
         if(StringUtils.isBlank(userJson)){
             return null;
         }
@@ -68,7 +74,7 @@ public class PassengerServiceImpl implements PassengerService {
         String nickname = passengerChangeParams.getNickname();
 //        构建lam
         LambdaUpdateWrapper<Passenger> queryWrapper = new LambdaUpdateWrapper<>();
-        queryWrapper.eq(Passenger::getId, passengerChangeParams.getUserId());
+        queryWrapper.eq(Passenger::getId, UserThreadLocal.get().getId());
 //        new 一个目标对象 将parmas内部的值贴到 对象中
         Passenger passenger = new Passenger();
         if(!StringUtils.isBlank(email)){
@@ -102,12 +108,9 @@ public class PassengerServiceImpl implements PassengerService {
     @Override
     public Result changePassengerPwd(PassengerPasswordParams passengerPasswordParams) {
         Passenger passenger = UserThreadLocal.get();
-        String userPwd = passengerPasswordParams.getUserPwd();
-//        判断参数
-        if(userPwd == null){
-            return Result.fail(ErrorCode.PARAMS_IS_NULL.getCode(),ErrorCode.PARAMS_IS_NULL.getMsg());
-        }
-        passenger.setUserPwd(userPwd);
+        String userPwd = DigestUtils.md5Hex(passengerPasswordParams.getUserPwd());
+
+        passenger.setUserPwd(userPwd+slat);
         LambdaUpdateWrapper<Passenger> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.eq(Passenger::getId,passenger.getId());
         int update = passengerMapper.update(passenger, updateWrapper);
@@ -115,6 +118,11 @@ public class PassengerServiceImpl implements PassengerService {
         if(update == 0){
             return Result.fail(ErrorCode.SQL_UPDATE.getCode(),ErrorCode.SQL_UPDATE.getMsg());
         }
+//        删除指定的token  更新token
+        String token = JWTUtils.createToken(passenger.getId());
+        stringRedisTemplate.delete("TOKEN_"+token);
+
+        stringRedisTemplate.opsForValue().set("TOKEN_" + token , JSON.toJSONString(passenger),1, TimeUnit.DAYS);
         return Result.success(null);
     }
 

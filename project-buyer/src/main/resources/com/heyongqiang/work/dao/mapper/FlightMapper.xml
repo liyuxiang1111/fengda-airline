@@ -7,11 +7,12 @@
 
     <select id="selectPlansLimit"  resultType="com.heyongqiang.work.dao.pojo.Flight">
         select * from flight
-            where
+        <where>
                 1 = 1
             and begin_city = #{beginCity}
-            and end_ciry = #{endCity}
-            limit #{pageNum},#{pageSize}
+            and end_city = #{endCity}
+        </where>
+             limit #{pageNum},#{pageSize}
     </select>
 
 </mapper>

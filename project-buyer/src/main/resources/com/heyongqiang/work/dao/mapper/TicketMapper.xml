@@ -8,8 +8,8 @@
     <select id="findTicketListNormal"  resultType="com.heyongqiang.work.dao.pojo.Ticket">
         select * from ticket
         where
-        ticket_id in
-        <foreach collection="flightList" item="ticketId" separator="," open="(" close=")">
+        id in
+        <foreach collection="ticketList" item="ticketId" separator="," open="(" close=")">
             #{ticketId}
         </foreach>;
     </select>

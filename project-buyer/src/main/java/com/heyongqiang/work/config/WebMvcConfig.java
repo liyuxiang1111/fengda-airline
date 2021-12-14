@@ -43,9 +43,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/ticket/search/return")
                 .addPathPatterns("/ticket/modify")
                 .addPathPatterns("/buyer/again")
-                .addPathPatterns("/pay/list")
+                .addPathPatterns("/pay/search")
                 .addPathPatterns("/passenger/password")
-                .addPathPatterns("ticket/return");
+                .addPathPatterns("/ticket/return")
+                .addPathPatterns("/passenger");
     }
 
 

@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface TicketMapper extends BaseMapper<Ticket> {
 
-    List<Ticket> findTicketListNormal(List<String> flightList);
+    List<Ticket> findTicketListNormal(List<String> ticketList);
 
 }

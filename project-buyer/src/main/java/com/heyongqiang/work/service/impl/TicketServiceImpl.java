@@ -84,7 +84,7 @@ public class TicketServiceImpl implements TicketService {
             return Result.fail(ErrorCode.NO_PERMISSION.getCode(),ErrorCode.NO_PERMISSION.getMsg());
         }
         LambdaUpdateWrapper<Ticket> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.eq(Ticket::getId,ticketChangeParams.getTicketId()).set(Ticket::getTicketDay,ticketChangeParams.getTicketDay());
+        updateWrapper.eq(Ticket::getId,ticketChangeParams.getTicketId()).set(Ticket::getFlightDay,ticketChangeParams.getTicketDay());
         int update = ticketMapper.update(null, updateWrapper);
         if(update == 0){
             return Result.fail(ErrorCode.SQL_UPDATE.getCode(),ErrorCode.SQL_UPDATE.getMsg());
@@ -105,6 +105,9 @@ public class TicketServiceImpl implements TicketService {
          */
 //        根据id 查询到指定机票的全部信息
         Ticket ticket = ticketMapper.selectById(ticketReturnParams.getTicketId());
+        ticket.setSell(0);
+        this.ticketMapper.updateById(ticket);
+
         TicketReturn ticketReturn = initTicketReturnInformation(ticket,passenger);
         ticketReturn.setReason(ticketReturnParams.getResource());
 
@@ -125,6 +128,7 @@ public class TicketServiceImpl implements TicketService {
         ticketReturn.setTicketId(ticket.getId());
         ticketReturn.setTime(System.currentTimeMillis());
         ticketReturn.setSeat(ticket.getSeat());
+        ticketReturn.setTicketPrice(ticket.getTicketPrice());
         return ticketReturn;
     }
 
@@ -146,7 +150,7 @@ public class TicketServiceImpl implements TicketService {
         ticket.setPlaneId(flight.getPlaneId());
         ticket.setSeat(seat);
         ticket.setSell(1);
-        ticket.setTicketDay(day);
+        ticket.setFlightDay(day);
         ticket.setTicketPrice(price);
         return ticket;
     }

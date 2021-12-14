@@ -25,7 +25,7 @@ public class Ticket {
 
     private Integer grade;
 
-    private String ticketDay;
+    private String flightDay;
 
 
 }

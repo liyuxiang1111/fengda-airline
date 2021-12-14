@@ -11,6 +11,7 @@ import com.heyongqiang.work.dao.pojo.Plane;
 import com.heyongqiang.work.dao.pojo.Ticket;
 import com.heyongqiang.work.service.FlightSearch;
 import com.heyongqiang.work.vo.FlightSearchVo;
+import com.heyongqiang.work.vo.Page;
 import com.heyongqiang.work.vo.Result;
 import com.heyongqiang.work.vo.params.FlightSearchParams;
 import org.apache.commons.lang3.StringUtils;
@@ -41,12 +42,20 @@ public class FlightSearchImpl implements FlightSearch {
          */
         String endCity = flightSearchParams.getEndCity();
         String beginCity = flightSearchParams.getBeginCity();
-        Integer pageSize = flightSearchParams.getPageSize();
-        Integer pageNum = flightSearchParams.getPageNum();
+        int pageSize = flightSearchParams.getPageSize();
+        int pageNum = flightSearchParams.getPageNum();
+//        查询数量
+        LambdaQueryWrapper<Flight> selectCount = new LambdaQueryWrapper<>();
+        selectCount.eq(Flight::getBeginCity,beginCity);
+        selectCount.eq(Flight::getEndCity,endCity);
+        Integer count = flightMapper.selectCount(selectCount);
 
         List<Flight> flights = flightMapper.selectPlansLimit(beginCity,endCity,pageNum,pageSize);
 
-        return Result.success(copyList(flights));
+        List<FlightSearchVo> flightSearchVoList = copyList(flights);
+        Page<FlightSearchVo> page = new Page<FlightSearchVo>(flightSearchParams.getPageNum(),flightSearchParams.getPageSize(),count);
+        page.setDataList(flightSearchVoList);
+        return Result.success(page);
     }
 
     /**
@@ -86,7 +95,8 @@ public class FlightSearchImpl implements FlightSearch {
          */
         flightSearchVo.setFlightId(String.valueOf(flight.getId()));
 //        起步价
-        flightSearchVo.setLastPrice(flight.getEconomyPrice());
+        flightSearchVo.setLastPrice(Integer.parseInt(flight.getEconomyPrice()));
+
         return flightSearchVo;
     }
 
