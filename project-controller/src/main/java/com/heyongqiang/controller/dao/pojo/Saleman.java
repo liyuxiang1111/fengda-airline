@@ -1,4 +1,4 @@
-package com.heyongqiang.work.dao.pojo;
+package com.heyongqiang.controller.dao.pojo;
 
 
 import lombok.Data;
