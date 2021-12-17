@@ -99,7 +99,7 @@ public class FlightSearchImpl implements FlightSearch {
         flightSearchVo.setBusinessPrice(Integer.parseInt(flight.getBusinessPrice()));
         flightSearchVo.setEconomyPrice(Integer.parseInt(flight.getEconomyPrice()));
         flightSearchVo.setFirstPrice(Integer.parseInt(flight.getFirstPrice()));
-        flightSearchVo.setStatus(true);
+        flightSearchVo.setStatus(false);
 
         return flightSearchVo;
     }
