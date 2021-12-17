@@ -2,7 +2,7 @@ package com.heyongqiang.controller.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.heyongqiang.controller.dao.mapper.SaleManMapper;
-import com.heyongqiang.controller.dao.pojo.Saleman;
+import com.heyongqiang.controller.dao.pojo.Salesman;
 import com.heyongqiang.controller.service.LoginService;
 import com.heyongqiang.controller.vo.Result;
 import com.heyongqiang.controller.vo.params.LoginParams;
@@ -24,15 +24,15 @@ public class LoginServiceImpl implements LoginService {
          */
         String userName= loginParams.getUserName();
         String userPwd = loginParams.getUserPwd();
-        LambdaQueryWrapper<Saleman> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(Saleman::getSalesmanName,userName);
-        Saleman saleman = saleManMapper.selectOne(queryWrapper);
-        if(saleman == null){
+        LambdaQueryWrapper<Salesman> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Salesman::getSalesmanName,userName);
+        Salesman salesman = saleManMapper.selectOne(queryWrapper);
+        if(salesman == null){
             return Result.fail(200,"用户不存在");
         }
-        if(userPwd.equals(saleman.getSalesmanPwd())){
+        if(!userPwd.equals(salesman.getSalesmanPwd())){
             return Result.fail(201,"密码错误");
         }
-        return Result.success(saleman);
+        return Result.success(salesman);
     }
 }

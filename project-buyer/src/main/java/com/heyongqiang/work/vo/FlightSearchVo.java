@@ -38,5 +38,7 @@ public class FlightSearchVo {
 
     private Integer day;
 
+    private Boolean status;
+
 
 }

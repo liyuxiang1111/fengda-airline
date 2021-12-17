@@ -14,4 +14,6 @@ public class FlightDiscount {
 
     private Long discountTime;
 
+    private Long flightId;
+
 }

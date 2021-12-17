@@ -58,6 +58,7 @@ public class FlightIndexServiceImpl implements FlightIndexService {
         flightSearchVo.setFlightId(String.valueOf(flight.getId()));
 //        起步价
         flightSearchVo.setLastPrice(flight.getEconomyPrice());
+        flightSearchVo.setStatus(true);
         return flightSearchVo;
     }
 

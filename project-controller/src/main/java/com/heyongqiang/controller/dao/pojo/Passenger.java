@@ -24,4 +24,6 @@ public class Passenger {
 
     private String userImg;
 
+    private Integer role;
+
 }

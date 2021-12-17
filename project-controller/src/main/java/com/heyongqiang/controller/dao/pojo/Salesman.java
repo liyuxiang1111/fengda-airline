@@ -4,7 +4,7 @@ package com.heyongqiang.controller.dao.pojo;
 import lombok.Data;
 
 @Data
-public class Saleman {
+public class Salesman {
 
     private Integer id;
 
