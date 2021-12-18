@@ -14,9 +14,9 @@ public class Flight {
 
     private String endCity;
 
-    private String beginTime;
+    private Long beginTime;
 
-    private String endTime;
+    private Long endTime;
 
     private String economyPrice;
 

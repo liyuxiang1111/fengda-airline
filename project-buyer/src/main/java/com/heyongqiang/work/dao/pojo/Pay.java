@@ -12,6 +12,8 @@ public class Pay {
 
     private Long userId;
 
+    private Long buyerId;
+
     private Integer ispay;
 
 

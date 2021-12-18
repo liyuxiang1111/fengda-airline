@@ -2,10 +2,7 @@ package com.heyongqiang.work.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.heyongqiang.work.dao.mapper.FlightMapper;
-import com.heyongqiang.work.dao.mapper.PayMapper;
-import com.heyongqiang.work.dao.mapper.TicketMapper;
-import com.heyongqiang.work.dao.mapper.TicketReturnMapper;
+import com.heyongqiang.work.dao.mapper.*;
 import com.heyongqiang.work.dao.pojo.*;
 import com.heyongqiang.work.service.TicketService;
 import com.heyongqiang.work.utils.UserThreadLocal;
@@ -36,6 +33,9 @@ public class TicketServiceImpl implements TicketService {
     @Resource
     private TicketReturnMapper ticketReturnMapper;
 
+    @Resource
+    private BuyerMapper buyerMapper;
+
     @Override
     public Result ticketBuy(TicketBuyerParams ticketBuyerParams) {
         /**
@@ -54,6 +54,17 @@ public class TicketServiceImpl implements TicketService {
         pay.setIspay(0);
         pay.setUserId(passenger.getId());
         pay.setTicketId(ticket.getId());
+
+//        登机个人数据
+        Buyer buyer = new Buyer();
+        buyer.setCertificate(ticketBuyerParams.getCertificate());
+        buyer.setCertificateType(ticketBuyerParams.getCertificateType());
+        buyer.setEmail(ticketBuyerParams.getEmail());
+        buyer.setPassengerName(ticketBuyerParams.getPassengerName());
+        buyer.setTelephone(ticketBuyerParams.getTelephone());
+        this.buyerMapper.insert(buyer);
+
+        pay.setBuyerId(buyer.getId());
         this.payMapper.insert(pay);
 
 //        返回生成的订单 id

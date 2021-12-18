@@ -9,4 +9,6 @@ public class FlightSeatParams {
 
     private String resource;
 
+    private Integer seat;
+
 }

@@ -5,15 +5,14 @@ import com.heyongqiang.work.dao.mapper.FlightMapper;
 import com.heyongqiang.work.dao.mapper.PlaneMapper;
 import com.heyongqiang.work.dao.mapper.TicketMapper;
 import com.heyongqiang.work.dao.pojo.Flight;
+import com.heyongqiang.work.dao.pojo.Plane;
 import com.heyongqiang.work.dao.pojo.Ticket;
 import com.heyongqiang.work.service.FlightSeatService;
 import com.heyongqiang.work.vo.ErrorCode;
-import com.heyongqiang.work.vo.FlightBooleanParams;
-import com.heyongqiang.work.vo.FlightSearchVo;
+import com.heyongqiang.work.vo.FlightBooleanVo;
 import com.heyongqiang.work.vo.Result;
 import com.heyongqiang.work.vo.params.FlightSeatParams;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.annotation.Resource;
 
@@ -46,25 +45,33 @@ public class FlightSeatServiceImpl implements FlightSeatService {
 //        拿到flight的 数据
         Flight flight = flightMapper.selectById(flightSeatParams.getFlightId());
 //        构建sql
-        Integer economy =  countTicetBuyerNum(flight.getId(),0);
-        Integer bussiness =  countTicetBuyerNum(flight.getId(),1);
-        Integer first =  countTicetBuyerNum(flight.getId(),2);
-        FlightBooleanParams flightBooleanParams = new FlightBooleanParams();
-        flightBooleanParams.setIsbussiness(bussiness);
-        flightBooleanParams.setIseconomy(economy);
-        flightBooleanParams.setIsfirst(first);
-        return Result.success(flightBooleanParams);
+        Integer seats =  countTicetBuyerNum(flight,flightSeatParams.getSeat());
+        FlightBooleanVo flightBooleanVo = new FlightBooleanVo();
+        flightBooleanVo.setSeats(seats);
+        return Result.success(flightBooleanVo);
     }
 
-    private Integer countTicetBuyerNum(Long flightId,Integer seat) {
-        LambdaQueryWrapper<Ticket> queryWrapper = new LambdaQueryWrapper<>();
+    private Integer countTicetBuyerNum(Flight flight,Integer seat) {
+        LambdaQueryWrapper<Ticket> ticketWrapper = new LambdaQueryWrapper<>();
 
+        ticketWrapper.eq(Ticket::getFlightId,flight.getId());
 
-        queryWrapper.eq(Ticket::getFlightId,flightId);
+        ticketWrapper.eq(Ticket::getSeat,seat);
+        Integer ticketCount = ticketMapper.selectCount(ticketWrapper);
 
-        queryWrapper.eq(Ticket::getSeat,seat);
+        Plane plane = planeMapper.selectById(flight.getPlaneId());
+        int planeSeat = 0;
+        if(seat == 0){
+            planeSeat = plane.getBusinessSeat();
+        }
+        if(seat == 1){
+            planeSeat = plane.getEconomySeat();
+        }
+        if(seat == 2){
+            planeSeat = plane.getFirstSeat();
+        }
 
-        return ticketMapper.selectCount(queryWrapper);
+        return planeSeat - ticketCount;
 
     }
 

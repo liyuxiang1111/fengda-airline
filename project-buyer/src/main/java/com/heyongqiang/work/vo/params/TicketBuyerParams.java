@@ -16,4 +16,14 @@ public class TicketBuyerParams {
 
     private String day;
 
+    private String passengerName;
+
+    private String certificate;
+
+    private String certificateType;
+
+    private String telephone;
+
+    private String email;
+
 }

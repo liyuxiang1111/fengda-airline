@@ -14,7 +14,9 @@ import com.heyongqiang.work.vo.FlightSearchVo;
 import com.heyongqiang.work.vo.Page;
 import com.heyongqiang.work.vo.Result;
 import com.heyongqiang.work.vo.params.FlightSearchParams;
+import javafx.scene.input.DataFormat;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -99,6 +101,9 @@ public class FlightSearchImpl implements FlightSearch {
         flightSearchVo.setBusinessPrice(Integer.parseInt(flight.getBusinessPrice()));
         flightSearchVo.setEconomyPrice(Integer.parseInt(flight.getEconomyPrice()));
         flightSearchVo.setFirstPrice(Integer.parseInt(flight.getFirstPrice()));
+        flightSearchVo.setBeginTime(new DateTime(flight.getBeginTime()).toString("HH:MM"));
+        flightSearchVo.setEndTime(new DateTime(flight.getEndTime()).toString("HH:MM"));
+
         flightSearchVo.setStatus(false);
 
         return flightSearchVo;
