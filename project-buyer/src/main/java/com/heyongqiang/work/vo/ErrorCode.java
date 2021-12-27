@@ -11,7 +11,8 @@ public enum  ErrorCode {
     TOKEN_ERROR(10006,"token为空!!"),
     PARAMS_IS_NULL(10007,"用户名密码不能为空!!!"),
     SQL_UPDATE(10008,"更新数据库失败!!!"),
-    MAIN_PARAMS_NULL(10007,"关键的参数为空!!!");
+    MAIN_PARAMS_NULL(10007,"关键的参数为空!!!"),
+    NO_INFORMATION(100008,"你的查询的数据库中并没有记录请去添加！！");
 
 
     private int code;

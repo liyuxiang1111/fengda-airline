@@ -7,11 +7,27 @@
 
     <select id="findTicketListNormal"  resultType="com.heyongqiang.work.dao.pojo.Ticket">
         select * from ticket
-        where
-        id in
-        <foreach collection="ticketList" item="ticketId" separator="," open="(" close=")">
-            #{ticketId}
-        </foreach>;
+            <where>
+                id in
+                <foreach collection="ticketList" item="ticketId" separator="," open="(" close=")">
+                    #{ticketId}
+                </foreach>
+            </where>
+        limit #{pageNum},#{pageSize} ;
     </select>
+
+    <select id="findTicketListReturn"  resultType="com.heyongqiang.work.dao.pojo.Ticket">
+        select * from ticket
+            <where>
+                id in
+                <foreach collection="ticketList" item="ticketId" separator="," open="(" close=")">
+                    #{ticketId}
+                </foreach>
+                and sell = 0
+            </where>
+        limit #{pageNum},#{pageSize};
+    </select>
+
+
 
 </mapper>

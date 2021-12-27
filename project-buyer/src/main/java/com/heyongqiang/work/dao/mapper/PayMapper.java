@@ -6,5 +6,5 @@ import com.heyongqiang.work.dao.pojo.Pay;
 import java.util.List;
 
 public interface PayMapper extends BaseMapper<Pay> {
-    List<String> selectFlightIdList(Long id);
+    List<String> selectTicketIdList(Long id);
 }

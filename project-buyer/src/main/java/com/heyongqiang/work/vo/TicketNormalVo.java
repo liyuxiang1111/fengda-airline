@@ -19,4 +19,8 @@ public class TicketNormalVo {
     private Integer ticketPrice;
 
     private String ticketDay;
+
+    private String buyerName;
+
+    private String flightName;
 }

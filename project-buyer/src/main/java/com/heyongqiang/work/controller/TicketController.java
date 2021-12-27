@@ -8,6 +8,7 @@ import com.heyongqiang.work.service.TicketSearchReturnService;
 import com.heyongqiang.work.service.TicketService;
 import com.heyongqiang.work.vo.Result;
 import com.heyongqiang.work.vo.TicketReturnVo;
+import com.heyongqiang.work.vo.params.PageParams;
 import com.heyongqiang.work.vo.params.TicketChangeParams;
 import com.heyongqiang.work.vo.params.TicketReturnParams;
 import org.springframework.web.bind.annotation.*;
@@ -31,15 +32,13 @@ public class TicketController {
 
 
     @GetMapping("search/normal")
-    @Cache(expire = 60*60*12 ,name = "ticket_normal")
-    public Result searchTicket(){
-        return ticketSearchNormalService.findTicketByUserId();
+    public Result searchTicket(@RequestBody PageParams pageParams){
+        return ticketSearchNormalService.findTicketByUserId(pageParams);
     }
 
     @GetMapping("search/return")
-    @Cache(expire = 60*60*12 ,name = "ticket_return")
-    public Result searchTicketReturn(){
-        return ticketSearchReturnService.findTicketReturn();
+    public Result searchTicketReturn(@RequestBody PageParams pageParams){
+        return ticketSearchReturnService.findTicketReturn(pageParams);
     }
 
     @PostMapping("return")

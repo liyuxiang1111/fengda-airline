@@ -1,6 +1,7 @@
 package com.heyongqiang.work.service;
 
 import com.heyongqiang.work.vo.Result;
+import com.heyongqiang.work.vo.params.PageParams;
 
 public interface TicketSearchReturnService {
 
@@ -9,5 +10,5 @@ public interface TicketSearchReturnService {
      * @return
      */
 
-    Result findTicketReturn();
+    Result findTicketReturn(PageParams pageParams);
 }

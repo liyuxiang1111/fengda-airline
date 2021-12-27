@@ -5,7 +5,7 @@
 
 
 
-    <select id="selectFlightIdList"  resultType="string">
+    <select id="selectTicketIdList"  resultType="string">
         select ticket_id from pay where
             1 = 1
             and ispay = 1

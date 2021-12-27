@@ -19,4 +19,14 @@ public class TicketReturnVo {
 
     private Boolean isCompute;
 
+//    购买者名字
+    private String buyerName;
+
+//    航班名
+    private String flightName;
+
+//    退票理由
+    private String resource;
+
 }
+

@@ -1,14 +1,12 @@
 package com.heyongqiang.work.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.heyongqiang.work.dao.mapper.FlightMapper;
-import com.heyongqiang.work.dao.mapper.PayMapper;
-import com.heyongqiang.work.dao.mapper.TicketMapper;
-import com.heyongqiang.work.dao.mapper.TicketReturnMapper;
+import com.heyongqiang.work.dao.mapper.*;
 import com.heyongqiang.work.dao.pojo.*;
 import com.heyongqiang.work.service.TicketSearchNormalService;
 import com.heyongqiang.work.utils.UserThreadLocal;
 import com.heyongqiang.work.vo.*;
+import com.heyongqiang.work.vo.params.PageParams;
 import com.heyongqiang.work.vo.params.TicketBuyerParams;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
@@ -30,6 +28,8 @@ public class TicketSearchNormalServiceImpl implements TicketSearchNormalService 
     @Resource
     private FlightMapper flightMapper;
 
+    @Resource
+    private BuyerMapper buyerMapper;
 
     /**
      * 查看正常的票
@@ -40,19 +40,25 @@ public class TicketSearchNormalServiceImpl implements TicketSearchNormalService 
      */
 
     @Override
-    public Result findTicketByUserId() {
+    public Result findTicketByUserId(PageParams pageParams) {
         Passenger passenger = UserThreadLocal.get();
         Long id = passenger.getId();
         /**
-         *  select ticket from pay where userid = id and ispay = 1;
+         *  select ticket from pay where userid = id and ispay = 1 limit pageNum,pageSize;
          */
-        List<String> ticketList = payMapper.selectFlightIdList(id);
+        List<String> ticketList = payMapper.selectTicketIdList(id);
         /**
          * 根据 id的 list 去 ticket中寻找对应的 list
          */
-        List<Ticket> tickets = ticketMapper.findTicketListNormal(ticketList);
+        if(ticketList.size() == 0){
+            return Result.fail(ErrorCode.NO_INFORMATION.getCode(),ErrorCode.NO_INFORMATION.getMsg());
+        }
+        List<Ticket> tickets = ticketMapper.findTicketListNormal(ticketList,pageParams.getPageNum(),pageParams.getPageSize());
 
-        return Result.success(copyList(tickets));
+        Page<TicketNormalVo> page = new Page<>(pageParams.getPageNum(),pageParams.getPageSize(),ticketList.size());
+
+        page.setDataList(copyList(tickets));
+        return Result.success(page);
     }
 
 
@@ -84,10 +90,15 @@ public class TicketSearchNormalServiceImpl implements TicketSearchNormalService 
     private void flightInformations(Ticket ticket, TicketNormalVo ticketNormalVo) {
         Long flightId = ticket.getFlightId();
         Flight flight = flightMapper.selectById(flightId);
+        ticketNormalVo.setTicketId(String.valueOf(ticket.getId()));
+        ticketNormalVo.setTicketDay(ticket.getFlightDay());
         ticketNormalVo.setBeginCity(flight.getBeginCity());
         ticketNormalVo.setEndCity(flight.getEndCity());
         ticketNormalVo.setBeginTime(new DateTime(flight.getBeginTime()).toString("HH:mm"));
         ticketNormalVo.setEndTime(new DateTime(flight.getEndTime()).toString("HH:mm"));
+        Buyer buyer = buyerMapper.selectById(ticket.getDetailId());
+        ticketNormalVo.setBuyerName(buyer.getPassengerName());
+        ticketNormalVo.setFlightName(flight.getFlightName());
     }
 
 //    public static void main(String[] args) {
