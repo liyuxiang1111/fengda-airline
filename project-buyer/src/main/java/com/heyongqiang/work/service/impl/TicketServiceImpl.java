@@ -46,16 +46,8 @@ public class TicketServiceImpl implements TicketService {
         Long flightId = ticketBuyerParams.getFlightId();
 //        根据id 查询出来 一个航班基本的信息
         Flight flight = flightMapper.selectById(flightId);
-//        生成一个机票对应类
-        Ticket ticket = writeTicketByFlight(flight, ticketBuyerParams.getGrade(), ticketBuyerParams.getSeat(), ticketBuyerParams.getDay(), ticketBuyerParams.getPrice());
-        this.ticketMapper.insert(ticket);
 
-        Pay pay = new Pay();
-        pay.setIspay(0);
-        pay.setUserId(passenger.getId());
-        pay.setTicketId(ticket.getId());
-
-//        登机个人数据
+        //        登机个人数据
         Buyer buyer = new Buyer();
         buyer.setCertificate(ticketBuyerParams.getCertificate());
         buyer.setCertificateType(ticketBuyerParams.getCertificateType());
@@ -64,7 +56,14 @@ public class TicketServiceImpl implements TicketService {
         buyer.setTelephone(ticketBuyerParams.getTelephone());
         this.buyerMapper.insert(buyer);
 
-        pay.setBuyerId(buyer.getId());
+//        生成一个机票对应类
+        Ticket ticket = writeTicketByFlight(flight, ticketBuyerParams.getGrade(), ticketBuyerParams.getSeat(), ticketBuyerParams.getDay(), ticketBuyerParams.getPrice(),buyer.getId());
+        this.ticketMapper.insert(ticket);
+
+        Pay pay = new Pay();
+        pay.setIspay(0);
+        pay.setUserId(passenger.getId());
+        pay.setTicketId(ticket.getId());
         this.payMapper.insert(pay);
 
 //        返回生成的订单 id
@@ -154,7 +153,7 @@ public class TicketServiceImpl implements TicketService {
      * @return
      */
 
-    private Ticket writeTicketByFlight(Flight flight, Integer grade, Integer seat, String day, Integer price) {
+    private Ticket writeTicketByFlight(Flight flight, Integer grade, Integer seat, String day, Integer price,Long detailId) {
         Ticket ticket = new Ticket();
         ticket.setFlightId(flight.getId());
         ticket.setGrade(grade);
@@ -163,6 +162,7 @@ public class TicketServiceImpl implements TicketService {
         ticket.setSell(1);
         ticket.setFlightDay(day);
         ticket.setTicketPrice(price);
+        ticket.setDetailId(detailId);
         return ticket;
     }
 }

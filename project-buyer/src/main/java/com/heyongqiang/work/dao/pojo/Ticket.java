@@ -12,6 +12,8 @@ public class Ticket {
 
     private Long planeId;
 
+    private Long detailId;
+
     private Integer ticketPrice;
 
     private Integer sell;
