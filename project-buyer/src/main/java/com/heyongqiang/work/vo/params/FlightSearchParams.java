@@ -12,7 +12,7 @@ public class FlightSearchParams {
 //    到达城市
     private String endCity;
 //    出发日期
-    private Integer day;
+    private String day;
 //    每一个数量
     private int pageSize;
 //    当前页

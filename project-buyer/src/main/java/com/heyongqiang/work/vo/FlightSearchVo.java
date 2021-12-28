@@ -36,7 +36,7 @@ public class FlightSearchVo {
 //  0
     private Integer firstPrice;
 
-    private Integer day;
+    private String day;
 
     private Boolean status;
 

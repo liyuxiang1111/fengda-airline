@@ -12,6 +12,7 @@
                 <foreach collection="ticketList" item="ticketId" separator="," open="(" close=")">
                     #{ticketId}
                 </foreach>
+                and sell = 1
             </where>
         limit #{pageNum},#{pageSize} ;
     </select>

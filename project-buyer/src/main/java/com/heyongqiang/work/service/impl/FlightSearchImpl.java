@@ -30,6 +30,7 @@ public class FlightSearchImpl implements FlightSearch {
     @Resource
     private FlightMapper flightMapper;
 
+    private String day;
 
 
     /**
@@ -46,6 +47,7 @@ public class FlightSearchImpl implements FlightSearch {
         String beginCity = flightSearchParams.getBeginCity();
         int pageSize = flightSearchParams.getPageSize();
         int pageNum = flightSearchParams.getPageNum();
+        day = flightSearchParams.getDay();
 //        查询数量
         LambdaQueryWrapper<Flight> selectCount = new LambdaQueryWrapper<>();
         selectCount.eq(Flight::getBeginCity,beginCity);
@@ -103,7 +105,7 @@ public class FlightSearchImpl implements FlightSearch {
         flightSearchVo.setFirstPrice(Integer.parseInt(flight.getFirstPrice()));
         flightSearchVo.setBeginTime(new DateTime(flight.getBeginTime()).toString("HH:MM"));
         flightSearchVo.setEndTime(new DateTime(flight.getEndTime()).toString("HH:MM"));
-
+        flightSearchVo.setDay(day);
         flightSearchVo.setStatus(false);
 
         return flightSearchVo;
