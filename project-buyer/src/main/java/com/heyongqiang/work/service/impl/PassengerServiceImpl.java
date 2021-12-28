@@ -112,7 +112,7 @@ public class PassengerServiceImpl implements PassengerService {
      * @return
      */
     @Override
-    public Result changePassengerPwd(PassengerPasswordParams passengerPasswordParams) {
+    public Result changePassengerPwd(PassengerPasswordParams passengerPasswordParams,String tokens) {
         Passenger passenger = UserThreadLocal.get();
         String userPwd = DigestUtils.md5Hex(passengerPasswordParams.getUserPwd());
 
@@ -126,8 +126,7 @@ public class PassengerServiceImpl implements PassengerService {
         }
 //        删除指定的token  更新token
         String token = JWTUtils.createToken(passenger.getId());
-        stringRedisTemplate.delete("TOKEN_"+token);
-
+        stringRedisTemplate.delete("TOKEN_"+tokens);
         stringRedisTemplate.opsForValue().set("TOKEN_" + token , JSON.toJSONString(passenger),1, TimeUnit.DAYS);
         return Result.success(null);
     }

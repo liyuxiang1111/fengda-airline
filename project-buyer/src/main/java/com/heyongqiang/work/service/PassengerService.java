@@ -25,7 +25,7 @@ public interface PassengerService {
      * @param passengerPasswordParams
      * @return
      */
-    Result changePassengerPwd(PassengerPasswordParams passengerPasswordParams);
+    Result changePassengerPwd(PassengerPasswordParams passengerPasswordParams,String token);
 
     /**
      * 通过token 获得到用户的信息
