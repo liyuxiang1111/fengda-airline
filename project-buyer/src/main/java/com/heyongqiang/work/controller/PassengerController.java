@@ -22,13 +22,13 @@ public class PassengerController {
 
 
     @GetMapping
-    public Result getuserInformation(@RequestHeader("Authorization") String token ){
-        return passengerService.getUserInformation(token);
+    public Result getuserInformation(){
+        return passengerService.getUserInformation();
     }
 
     @PostMapping("informations")
-    public Result changeUserInformation(@RequestBody PassengerChangeParams passengerChangeParams,@RequestHeader("Authorization") String token){
-        return passengerService.changeUserInformation(passengerChangeParams,token);
+    public Result changeUserInformation(@RequestBody PassengerChangeParams passengerChangeParams){
+        return passengerService.changeUserInformation(passengerChangeParams);
     }
 
     @PostMapping("password")

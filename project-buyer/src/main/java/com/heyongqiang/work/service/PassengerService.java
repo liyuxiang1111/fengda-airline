@@ -18,7 +18,7 @@ public interface PassengerService {
      * 修改 用户的信息
      * @param passengerChangeParams
      */
-    Result changeUserInformation(PassengerChangeParams passengerChangeParams,String token);
+    Result changeUserInformation(PassengerChangeParams passengerChangeParams);
 
     /**
      * 修改密码
@@ -29,8 +29,7 @@ public interface PassengerService {
 
     /**
      * 通过token 获得到用户的信息
-     * @param token
      * @return
      */
-    Result getUserInformation(String token);
+    Result getUserInformation();
 }
