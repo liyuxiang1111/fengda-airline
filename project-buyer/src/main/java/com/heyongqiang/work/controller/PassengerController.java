@@ -10,7 +10,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("passenger")
@@ -23,13 +22,13 @@ public class PassengerController {
 
 
     @GetMapping
-    public Result getuserInformation(HttpServletRequest request){
-        return passengerService.getUserInformation(request);
+    public Result getuserInformation(){
+        return passengerService.getUserInformation();
     }
 
     @PostMapping("informations")
-    public Result changeUserInformation(HttpServletRequest request,@RequestBody PassengerChangeParams passengerChangeParams){
-        return passengerService.changeUserInformation(passengerChangeParams,request);
+    public Result changeUserInformation(@RequestBody PassengerChangeParams passengerChangeParams){
+        return passengerService.changeUserInformation(passengerChangeParams);
     }
 
     @PostMapping("password")

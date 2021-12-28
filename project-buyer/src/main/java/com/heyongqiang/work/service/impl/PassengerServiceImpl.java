@@ -23,7 +23,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -68,8 +67,7 @@ public class PassengerServiceImpl implements PassengerService {
      * @return
      */
     @Override
-    public Result changeUserInformation(PassengerChangeParams passengerChangeParams, HttpServletRequest request) {
-        String tokens = request.getHeader("Authorization");
+    public Result changeUserInformation(PassengerChangeParams passengerChangeParams) {
         String email = passengerChangeParams.getEmail();
         String realname = passengerChangeParams.getRealname();
         Integer gender = passengerChangeParams.getGender();
@@ -77,9 +75,8 @@ public class PassengerServiceImpl implements PassengerService {
         String nickname = passengerChangeParams.getNickname();
 //        构建lam
         LambdaUpdateWrapper<Passenger> queryWrapper = new LambdaUpdateWrapper<>();
-        queryWrapper.eq(Passenger::getId, UserThreadLocal.get().getId());
-//        new 一个目标对象 将parmas内部的值贴到 对象中
-        Passenger passenger = checkToken(tokens);
+        Passenger passenger = UserThreadLocal.get();
+        queryWrapper.eq(Passenger::getId, passenger.getId());
         if(!StringUtils.isBlank(email)){
             passenger.setEmail(email);
         }
@@ -100,8 +97,6 @@ public class PassengerServiceImpl implements PassengerService {
 //            更新的条数为 0 条返回一个错判的结果
             return Result.fail(ErrorCode.SQL_UPDATE.getCode(),ErrorCode.SQL_UPDATE.getMsg());
         }
-//        删除原来的token
-        stringRedisTemplate.delete("TOKEN_"+tokens);
         String token = JWTUtils.createToken(passenger.getId());
         stringRedisTemplate.opsForValue().set("TOKEN_" + token , JSON.toJSONString(passenger),1, TimeUnit.DAYS);
         return Result.success(token);
@@ -128,22 +123,21 @@ public class PassengerServiceImpl implements PassengerService {
         }
 //        删除指定的token  更新token
         String token = JWTUtils.createToken(passenger.getId());
-        stringRedisTemplate.delete("TOKEN_"+token);
         stringRedisTemplate.opsForValue().set("TOKEN_" + token , JSON.toJSONString(passenger),1, TimeUnit.DAYS);
         return Result.success(null);
     }
 
     @Override
-    public Result getUserInformation(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        Passenger passenger = checkToken(token);
+    public Result getUserInformation() {
+        Passenger passenger = UserThreadLocal.get();
         if(passenger == null){
             return Result.fail(ErrorCode.NO_LOGIN.getCode(),ErrorCode.NO_LOGIN.getMsg());
         }
+        Passenger passengers = passengerMapper.selectById(passenger.getId());
 //      铜鼓哦 id 查询证件
         Certificate certificate = certificateMapper.selectById(passenger.getCertificateId());
         PassengerVo passengerVo = new PassengerVo();
-        BeanUtils.copyProperties(passenger,passengerVo);
+        BeanUtils.copyProperties(passengers,passengerVo);
         passengerVo.setCertificate(certificate.getCertificate());
         return Result.success(passengerVo);
     }

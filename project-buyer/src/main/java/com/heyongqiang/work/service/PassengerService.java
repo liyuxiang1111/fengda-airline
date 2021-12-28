@@ -5,8 +5,6 @@ import com.heyongqiang.work.vo.Result;
 import com.heyongqiang.work.vo.params.PassengerChangeParams;
 import com.heyongqiang.work.vo.params.PassengerPasswordParams;
 
-import javax.servlet.http.HttpServletRequest;
-
 public interface PassengerService {
 
     /**
@@ -20,7 +18,7 @@ public interface PassengerService {
      * 修改 用户的信息
      * @param passengerChangeParams
      */
-    Result changeUserInformation(PassengerChangeParams passengerChangeParams, HttpServletRequest request);
+    Result changeUserInformation(PassengerChangeParams passengerChangeParams);
 
     /**
      * 修改密码
@@ -31,8 +29,7 @@ public interface PassengerService {
 
     /**
      * 通过token 获得到用户的信息
-     * @param httpServletRequest
      * @return
      */
-    Result getUserInformation(HttpServletRequest httpServletRequest);
+    Result getUserInformation();
 }
