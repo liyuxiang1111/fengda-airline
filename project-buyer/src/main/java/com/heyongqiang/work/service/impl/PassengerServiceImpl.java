@@ -23,6 +23,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -67,7 +68,8 @@ public class PassengerServiceImpl implements PassengerService {
      * @return
      */
     @Override
-    public Result changeUserInformation(PassengerChangeParams passengerChangeParams,String tokens) {
+    public Result changeUserInformation(PassengerChangeParams passengerChangeParams, HttpServletRequest request) {
+        String tokens = request.getHeader("Authorization");
         String email = passengerChangeParams.getEmail();
         String realname = passengerChangeParams.getRealname();
         Integer gender = passengerChangeParams.getGender();
@@ -77,7 +79,7 @@ public class PassengerServiceImpl implements PassengerService {
         LambdaUpdateWrapper<Passenger> queryWrapper = new LambdaUpdateWrapper<>();
         queryWrapper.eq(Passenger::getId, UserThreadLocal.get().getId());
 //        new 一个目标对象 将parmas内部的值贴到 对象中
-        Passenger passenger = this.checkToken(tokens);
+        Passenger passenger = checkToken(tokens);
         if(!StringUtils.isBlank(email)){
             passenger.setEmail(email);
         }
@@ -127,13 +129,13 @@ public class PassengerServiceImpl implements PassengerService {
 //        删除指定的token  更新token
         String token = JWTUtils.createToken(passenger.getId());
         stringRedisTemplate.delete("TOKEN_"+token);
-
         stringRedisTemplate.opsForValue().set("TOKEN_" + token , JSON.toJSONString(passenger),1, TimeUnit.DAYS);
         return Result.success(null);
     }
 
     @Override
-    public Result getUserInformation(String token) {
+    public Result getUserInformation(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
         Passenger passenger = checkToken(token);
         if(passenger == null){
             return Result.fail(ErrorCode.NO_LOGIN.getCode(),ErrorCode.NO_LOGIN.getMsg());

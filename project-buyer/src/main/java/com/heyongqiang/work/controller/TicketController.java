@@ -31,12 +31,12 @@ public class TicketController {
 
 
 
-    @GetMapping("search/normal")
+    @PostMapping("search/normal")
     public Result searchTicket(@RequestBody PageParams pageParams){
         return ticketSearchNormalService.findTicketByUserId(pageParams);
     }
 
-    @GetMapping("search/return")
+    @PostMapping("search/return")
     public Result searchTicketReturn(@RequestBody PageParams pageParams){
         return ticketSearchReturnService.findTicketReturn(pageParams);
     }
