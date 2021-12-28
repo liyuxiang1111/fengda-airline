@@ -39,6 +39,7 @@ public class PassengerServiceImpl implements PassengerService {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
+
     private final static String slat = "123hyq!@dsfas";
 
 
@@ -66,7 +67,7 @@ public class PassengerServiceImpl implements PassengerService {
      * @return
      */
     @Override
-    public Result changeUserInformation(PassengerChangeParams passengerChangeParams) {
+    public Result changeUserInformation(PassengerChangeParams passengerChangeParams,String tokens) {
         String email = passengerChangeParams.getEmail();
         String realname = passengerChangeParams.getRealname();
         Integer gender = passengerChangeParams.getGender();
@@ -76,7 +77,7 @@ public class PassengerServiceImpl implements PassengerService {
         LambdaUpdateWrapper<Passenger> queryWrapper = new LambdaUpdateWrapper<>();
         queryWrapper.eq(Passenger::getId, UserThreadLocal.get().getId());
 //        new 一个目标对象 将parmas内部的值贴到 对象中
-        Passenger passenger = new Passenger();
+        Passenger passenger = this.checkToken(tokens);
         if(!StringUtils.isBlank(email)){
             passenger.setEmail(email);
         }
@@ -97,8 +98,13 @@ public class PassengerServiceImpl implements PassengerService {
 //            更新的条数为 0 条返回一个错判的结果
             return Result.fail(ErrorCode.SQL_UPDATE.getCode(),ErrorCode.SQL_UPDATE.getMsg());
         }
-        return Result.success(null);
+//        删除原来的token
+        stringRedisTemplate.delete("TOKEN_"+tokens);
+        String token = JWTUtils.createToken(passenger.getId());
+        stringRedisTemplate.opsForValue().set("TOKEN_" + token , JSON.toJSONString(passenger),1, TimeUnit.DAYS);
+        return Result.success(token);
     }
+
 
     /**
      * 修改密码
