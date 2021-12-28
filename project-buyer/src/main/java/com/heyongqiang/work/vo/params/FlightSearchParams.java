@@ -1,23 +1,20 @@
 package com.heyongqiang.work.vo.params;
 
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.Data;
 
-import javax.annotation.sql.DataSourceDefinitions;
 
 @Data
 public class FlightSearchParams {
 
+//    出发城市
     private String beginCity;
-
+//    到达城市
     private String endCity;
-
+//    出发日期
     private Integer day;
-
+//    每一个数量
     private int pageSize;
-
 //    当前页
     private int pageNum;
-
 }

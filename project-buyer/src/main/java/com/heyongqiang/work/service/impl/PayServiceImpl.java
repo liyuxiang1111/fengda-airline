@@ -9,10 +9,8 @@ import com.heyongqiang.work.dao.pojo.Pay;
 import com.heyongqiang.work.dao.pojo.Plane;
 import com.heyongqiang.work.service.PayService;
 import com.heyongqiang.work.utils.UserThreadLocal;
-import com.heyongqiang.work.vo.ErrorCode;
-import com.heyongqiang.work.vo.FlightSearchVo;
-import com.heyongqiang.work.vo.PayListVo;
-import com.heyongqiang.work.vo.Result;
+import com.heyongqiang.work.vo.*;
+import com.heyongqiang.work.vo.params.PageParams;
 import com.heyongqiang.work.vo.params.PayAgainParams;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -45,7 +43,7 @@ public class PayServiceImpl implements PayService {
     }
 
     @Override
-    public Result listPassengerPay() {
+    public Result listPassengerPay(PageParams pageParams) {
         /**
          * 首先 拿到所有的订单先需要登录 所以先判断是否登录 然后返回对应的list 就可以了
          */
@@ -55,8 +53,13 @@ public class PayServiceImpl implements PayService {
         }
         LambdaQueryWrapper<Pay> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Pay::getUserId,passenger.getId());
-        List<Pay> pays = payMapper.selectList(queryWrapper);
-        return Result.success(copyList(pays));
+//        查找数量
+        Integer count = payMapper.selectCount(queryWrapper);
+//        分页查询
+        List<Pay> payList =  payMapper.selectPayListByLimit(passenger.getId(),pageParams.getPageNum(),pageParams.getPageSize());
+        Page<Pay> pages = new Page<>(pageParams.getPageNum(),pageParams.getPageSize(),count);
+        pages.setDataList(payList);
+        return Result.success(pages);
     }
 
 
@@ -76,7 +79,6 @@ public class PayServiceImpl implements PayService {
 
     public PayListVo copy(Pay pay){
         PayListVo payListVo = new PayListVo();
-        LambdaQueryWrapper<Flight> queryWrapper = new LambdaQueryWrapper<>();
         BeanUtils.copyProperties(pay,payListVo);
         payListVo.setPayId(String.valueOf(pay.getId()));
         return payListVo;

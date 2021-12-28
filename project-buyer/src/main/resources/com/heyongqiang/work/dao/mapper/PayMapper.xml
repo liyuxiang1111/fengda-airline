@@ -12,4 +12,12 @@
             and user_id = #{id}
     </select>
 
+    <select id="selectPayListByLimit"  resultType="com.heyongqiang.work.dao.pojo.Pay">
+        select * from pay
+        <where>
+            and user_id = #{id}
+        </where>
+        limit #{pageNum},#{pageSize}
+    </select>
+
 </mapper>

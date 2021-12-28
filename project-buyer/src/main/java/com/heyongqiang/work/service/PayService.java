@@ -1,6 +1,7 @@
 package com.heyongqiang.work.service;
 
 import com.heyongqiang.work.vo.Result;
+import com.heyongqiang.work.vo.params.PageParams;
 import com.heyongqiang.work.vo.params.PayAgainParams;
 
 public interface PayService {
@@ -15,5 +16,5 @@ public interface PayService {
      * 列出用户的所有订单
      * @return
      */
-    Result listPassengerPay();
+    Result listPassengerPay(PageParams pageParams);
 }

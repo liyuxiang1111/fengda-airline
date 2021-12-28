@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface PayMapper extends BaseMapper<Pay> {
     List<String> selectTicketIdList(Long id);
+
+    List<Pay> selectPayListByLimit(Long id, int pageNum, int pageSize);
 }

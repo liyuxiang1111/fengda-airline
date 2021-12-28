@@ -45,9 +45,14 @@ public class FlightSeatServiceImpl implements FlightSeatService {
 //        拿到flight的 数据
         Flight flight = flightMapper.selectById(flightSeatParams.getFlightId());
 //        构建sql
-        Integer seats =  countTicetBuyerNum(flight,flightSeatParams.getSeat());
+        Integer bus =  countTicetBuyerNum(flight,0);
+        Integer enc =  countTicetBuyerNum(flight,1);
+        Integer fir =  countTicetBuyerNum(flight,2);
+
         FlightBooleanVo flightBooleanVo = new FlightBooleanVo();
-        flightBooleanVo.setSeats(seats);
+        flightBooleanVo.setBusinessSeat(bus);
+        flightBooleanVo.setEconomySeat(enc);
+        flightBooleanVo.setFirstSeat(fir);
         return Result.success(flightBooleanVo);
     }
 
