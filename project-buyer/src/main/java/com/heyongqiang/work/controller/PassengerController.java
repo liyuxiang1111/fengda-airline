@@ -19,16 +19,14 @@ public class PassengerController {
     private PassengerService passengerService;
 
 
-
-
     @GetMapping
     public Result getuserInformation(){
         return passengerService.getUserInformation();
     }
 
     @PostMapping("informations")
-    public Result changeUserInformation(@RequestBody PassengerChangeParams passengerChangeParams){
-        return passengerService.changeUserInformation(passengerChangeParams);
+    public Result changeUserInformation(@RequestBody PassengerChangeParams passengerChangeParams,@RequestHeader("Authorization") String token){
+        return passengerService.changeUserInformation(passengerChangeParams,token);
     }
 
     @PostMapping("password")

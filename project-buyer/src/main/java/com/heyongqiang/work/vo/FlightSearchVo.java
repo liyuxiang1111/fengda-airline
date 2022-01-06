@@ -40,5 +40,7 @@ public class FlightSearchVo {
 
     private Boolean status;
 
+    private String history;
+
 
 }

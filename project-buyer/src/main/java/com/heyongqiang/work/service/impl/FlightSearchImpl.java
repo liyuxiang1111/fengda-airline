@@ -103,13 +103,16 @@ public class FlightSearchImpl implements FlightSearch {
         flightSearchVo.setBusinessPrice(Integer.parseInt(flight.getBusinessPrice()));
         flightSearchVo.setEconomyPrice(Integer.parseInt(flight.getEconomyPrice()));
         flightSearchVo.setFirstPrice(Integer.parseInt(flight.getFirstPrice()));
+        flightSearchVo.setHistory(new DateTime((flight.getEndTime()-flight.getBeginTime())).toString("HH:mm"));
         flightSearchVo.setBeginTime(new DateTime(flight.getBeginTime()).toString("HH:MM"));
         flightSearchVo.setEndTime(new DateTime(flight.getEndTime()).toString("HH:MM"));
+
         flightSearchVo.setDay(day);
         flightSearchVo.setStatus(false);
 
         return flightSearchVo;
     }
+
 
 
 

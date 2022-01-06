@@ -125,15 +125,15 @@ public class PassengerServiceImpl implements PassengerService {
             return Result.fail(ErrorCode.SQL_UPDATE.getCode(),ErrorCode.SQL_UPDATE.getMsg());
         }
 //        删除指定的token  更新token
-        String token = JWTUtils.createToken(passenger.getId());
         stringRedisTemplate.delete("TOKEN_"+tokens);
+        String token = JWTUtils.createToken(passenger.getId());
         stringRedisTemplate.opsForValue().set("TOKEN_" + token , JSON.toJSONString(passenger),1, TimeUnit.DAYS);
-        return Result.success(null);
+        return Result.success(token);
     }
 
     @Override
-    public Result getUserInformation(String token) {
-        Passenger passenger = checkToken(token);
+    public Result getUserInformation() {
+        Passenger passenger = UserThreadLocal.get();
         if(passenger == null){
             return Result.fail(ErrorCode.NO_LOGIN.getCode(),ErrorCode.NO_LOGIN.getMsg());
         }
