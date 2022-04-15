@@ -17,7 +17,13 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.TreeSet;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 @Service
 public class RegisterServiceImpl implements RegisterService {
@@ -32,6 +38,17 @@ public class RegisterServiceImpl implements RegisterService {
     private RedisTemplate<String,String> redisTemplate;
 
     private final static String slat = "123hyq!@dsfas";
+
+
+    public static void main(String[] args) {
+        int [] ints={1,5,9,2,5,63,4,8};
+        System.out.println("________分割线① rangeClosed 使用_________");
+        IntStream.of(ints).sorted().forEach(System.out::println);
+        Executors.newFixedThreadPool(4);
+
+
+    }
+
 
 
     /**

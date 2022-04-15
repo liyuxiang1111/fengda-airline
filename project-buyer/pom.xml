@@ -11,5 +11,16 @@
 
     <artifactId>project-buyer</artifactId>
 
+    <dependencies>
+        <!-- 腾讯云cos图片上传开始 -->
+        <dependency>
+            <groupId>com.qcloud</groupId>
+            <artifactId>cos_api</artifactId>
+            <version>5.6.18</version>
+        </dependency>
+        <!--  腾讯云cos图片上传结束 -->
+    </dependencies>
+
+
 
 </project>

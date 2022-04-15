@@ -51,6 +51,7 @@ public class FlightIndexServiceImpl implements FlightIndexService {
 
     public FlightSearchVo copy(Recommend flight){
         FlightSearchVo flightSearchVo = new FlightSearchVo();
+
         BeanUtils.copyProperties(flight,flightSearchVo);
         /**
          * 根据  飞机的型号 拿到飞机的基本信息

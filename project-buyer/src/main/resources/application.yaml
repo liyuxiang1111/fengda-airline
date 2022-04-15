@@ -1,3 +1,4 @@
+
 server:
   port: 8888
 spring:
@@ -18,5 +19,14 @@ spring:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+### 腾讯cos
+tengxun:
+  cos:
+    secretId: AKIDb0B7nDOJzPaVBbmhNnzwd5HDuLXT9alg
+    secretKey: h9LHyPaWCcmhMlvpUt3yykGXYJo44oJY
+    bucket: ap-shanghai
+    bucketName: xingqiu-tuchuang-1256524210
+    prefix: /3937
 
 

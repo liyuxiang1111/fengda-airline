@@ -15,6 +15,10 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Component
 @Aspect  //切面 定义了通知和切点的关系
@@ -65,4 +69,54 @@ public class LogAspect {
         log.info("=====================log end================================");
     }
 
+    public static void main(String[] args) {
+        LogAspect logAspect = new LogAspect();
+        int[][] ans = new int[6][2];
+        ans[0] = new int[]{1,3};
+        ans[1] = new int[]{2,3};
+        ans[5] = new int[]{1,4};
+        ans[2] = new int[]{4,3};
+        ans[4] = new int[]{5,6};
+        ans[3] = new int[]{5,8};
+        logAspect.findWinners(ans);
+
+    }
+
+
+    public List<List<Integer>> findWinners(int[][] matches) {
+        List<List<Integer>> res = new ArrayList<>();
+        Map<Integer,int[]> map = new HashMap<Integer,int[]>();
+        for(int[] wins : matches){
+            // 遍历
+            int win = wins[0];
+            int los = wins[1];
+            if(!map.containsKey(win)){
+                map.put(win,new int[]{1,1});
+            } else {
+                int[] awin = map.get(win);
+                awin[0]++;
+                awin[1]++;
+            }
+            if(!map.containsKey(los)){
+                map.put(los,new int[]{1,-1});
+            } else {
+                int[] alos = map.get(los);
+                alos[0]++;
+            }
+        }
+        List<Integer> win0 = new ArrayList<>();
+        List<Integer> win1 = new ArrayList<>();
+        for(Map.Entry<Integer,int[]> sets : map.entrySet()){
+            int win = sets.getKey();
+            int[] nums = sets.getValue();
+            if(nums[0] == nums[1]){
+                win0.add(win);
+            } else if(nums[0] == nums[1] + 1){
+                win1.add(win);
+            }
+        }
+        res.add(win0);
+        res.add(win1);
+        return res;
+    }
 }
