@@ -22,9 +22,6 @@ import java.util.UUID;
 /**
  *
  * 图片上传到服务器
- *
- * @auther Lazy
- * @create 2020/04/30
  */
 @CrossOrigin
 @RestController
