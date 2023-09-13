@@ -8,9 +8,9 @@ public class Flight {
 
     private Long id;
 
-    private Long planeId;
+    private Long planeId; // 飞机型号ID
 
-    private String beginCity;
+    private String beginCity; // 起飞城市
 
     private String endCity;
 

@@ -10,7 +10,7 @@ public class Certificate {
 
     private String certificate;
 
-    private String discount;
+    private String discount; // 总计
 
     private String certificateType;
 
